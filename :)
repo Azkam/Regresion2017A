@@ -1,0 +1,3 @@
+ingreso<-sample(20000:50000,100)
+(ingreso<-sample(20000:50000,100))
+(ingreso1<-ingreso[ingreso>=40000])

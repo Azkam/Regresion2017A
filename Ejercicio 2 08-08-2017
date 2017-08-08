@@ -1,0 +1,11 @@
+fac<-c("economia","ingenieria","arquitectura","derecho")
+lic<-c("actuaria","ing civil","arquitectura","derecho")
+calalu<-c(6,4,10,8)
+class(fac)
+class(lic)
+class(calalu)
+rm(fac)
+rm(lic)
+pie(calalu,main = "Grafica 1: Calificaciones alumnos",
+    ,sub="I",radius=1,clockwise = FALSE,lty=6,
+    col=c("chartreuse","mediumvioletred","darkorchid2","yellow"))

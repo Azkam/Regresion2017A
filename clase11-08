@@ -1,0 +1,29 @@
+nombres <- c("Sergio", "Juan","Rosario","Jessica")
+edad <- c(30,43,21,18)
+altura <- c(170,165,175,172)
+salario <- c(3000,4500,2200,4300)
+basem <-data.frame(nombres,edad,altura,salario)
+View(basem)
+basem[4,3]<-178
+
+basem$salario*2.2->basem$salario 
+basem
+
+peso<-c(83.2,75.2,69.3,70.5)
+basem<-data.frame(nombres,edad,altura,salario,peso)
+
+basem$peso<-basem$peso*1.2
+
+round(basem$peso,1)->basem$peso
+basem$escolaridad<-c("Prepa","Lic","Ninguno","Prim")
+basem$sexo<-c(1,1,2,2)
+basem
+
+table(basem$peso)
+attach (basem)
+table(sexo)
+
+install.packages("foreing","questionar","car")
+library(foreign)
+library(questionr)
+require (car)

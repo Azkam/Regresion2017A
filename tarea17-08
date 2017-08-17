@@ -1,0 +1,9 @@
+install.packages("foreign")
+require(foreign)
+mti2015<-read.dbf("C:/Users/azkam/Downloads/mti2015_bases_conapo_dbf/mti2015_05_17_sdem_precodificado.DBF")
+
+as.numeric(mti2015$ENT)
+class(mti2015$ENT)
+
+mti2015$ENT<-as.numeric(as.character(mti2015$ENT))
+class(mti2015$ENT)

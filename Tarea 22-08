@@ -1,0 +1,49 @@
+temporal <- tempfile()
+download.file("http://www.beta.inegi.org.mx/contenidos/proyectos/enchogares/modulos/mti/2015/microdatos/mti2015_bases_conapo_dbf.zip",temporal)
+files = unzip (temporal, list=TRUE) $Name
+unzip(temporal, files=files[grepl("dbf", files)])
+library (foreign)
+
+mti15 <- data.frame (read.dbf("mti2015_05_17_sdem_precodificado.DBF"))
+class (mti15$ENT)
+mti15$ENT <- as.numeric(mti15$ENT)
+class (mti15$ENT)
+
+
+mti15$RAMA2 [mti15$RAMA ==1] <-1
+mti15$RAMA2 [mti15$RAMA ==2 | mti15$RAMA ==3] <-2
+mti15$RAMA2 [mti15$RAMA ==4 | mti15$RAMA ==5] <-3
+mti15$RAMA2 [mti15$RAMA ==6 | mti15$RAMA ==7] <-4
+table (mti15$RAMA2)
+
+table(mti15$EDA)
+
+mti15$EDA <- as.numeric(as.character(mti15$EDA))
+class(mti15$EDA)
+mti15$GPOEDA [mti15$EDA ==5 | mti15$EDA ==6 | mti15$EDA ==7] <-1
+mti15$GPOEDA [mti15$EDA ==8 | mti15$EDA ==9 | mti15$EDA ==10 | mti15$EDA ==11] <-2
+mti15$GPOEDA [mti15$EDA ==12 | mti15$EDA ==13 | mti15$EDA ==14] <-3
+mti15$GPOEDA [mti15$EDA ==15 | mti15$EDA ==16 | mti15$EDA ==17] <-4
+table (mti15$GPOEDA)
+mti15$GPOEDA <- factor(mti15$GPOEDA, levels = c(1,2,3,4), labels = c("Niñ@s", "Pre-ado", "Ado", "Joven"))
+table (mti15$GPOEDA)
+library(questionr)
+tab <- wtd.table(mti15$GPOEDA, weights = mti15$FAC_MTI)
+write.csv(tab, file = "tabla.csv")
+tabla <- data.frame(tab)
+
+
+### grafica con ggplot2
+grupo <- c("Niñ@s", "Pre-ado", "Ado", "Joven")
+frec <- c(21072,28357,21896,22168)
+install.packages("ggplot2")
+library(ggplot2)
+base <- data.frame(grupo,frec)
+ggplot(data = base,aes(grupo,frec)) + geom_bar(stat = "identity",fill=c("chartreuse1","chartreuse2","chartreuse3","chartreuse4")) + 
+  ggtitle("Grupos de edad")+labs(x="Grupo", y="Frecuancia") + 
+  theme(plot.title = element_text(colour = "limegreen",size =15,hjust = .5,face = "bold"))+
+  labs(caption ="Fuente: INEGI.Modulo de Trabajo Infantil")+
+  theme(axis.title = element_text(colour = "springgreen4",size = 12,face = "bold"))+
+  theme(axis.text = element_text(colour = "springgreen4",size = 10,face = "bold"))+
+  geom_text(aes(y=frec,label=frec),size =4,vjust=-.5,hjust=.5,col="springgreen")
+base$grupo <- factor(base$grupo, levels =c("Niñ@s", "Pre-ado", "Ado", "Joven") )

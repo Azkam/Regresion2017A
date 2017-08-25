@@ -1,0 +1,6 @@
+#relacion de horas dormidas y el promedio de calificaciones
+indep<-c(8,5,6,4,8,7,4,8,5,3)#horas de sueño
+dep<-c(10,9,8,7,6,6,7,8,9,10)#promedio
+relacion<-data.frame(indep,dep)
+plot(relacion[,1], relacion[,2], main="Gráfica: Diagrama de Dispersión",xlab = "Horas de sueño", ylab = "Promedio de calif",)
+abline(lm(relacion[,2]~relacion[,1]), col="blue4")

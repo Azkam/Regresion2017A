@@ -1,0 +1,48 @@
+vax<-c(170,172,173,174,174,175,176,177,180,180,180,180,180,181,181,182,182,182,182,184,184,185,186,188)
+vay<-c(.84,1.31,1.42,1.03,1.07,1.08,1.04,1.8,1.45,1.60,1.61,2.13,2.15,.84,1.43,.9,1.81,1.94,2.68,1.49,2.52,3,1.87,3.08)
+#1)determine la ec de la recta de regresion estimada
+#2)calcule una estimacion puntual del salto horizontal promedio cuando la estatura de 
+#la persona es de 182
+#3)calcule los valores de los residuos de minimos cuadrados de las 4 obsevaciones con 
+#las cuales la estatura es de 182
+#¿que proporcion de la variacion observada en el salto horizontal es atribuida a la 
+#relacion de regresion lineal simple.
+
+medx<-mean(vax)
+medy<-mean(vay)
+sumax<-sum(vax)
+sumay<-sum(vay)
+multi<-vax*vay
+sumamulti<-sum(multi)
+sumax2<-sum(vax*vax)
+
+Sxx<-sumax2-((sumax*sumax)/length(vax))
+Sxy<-sumamulti-((sumax*sumay)/length(vay))
+B1<-Sxy/Sxx
+B0<-medy-(B1*medx)
+
+Ygo <- B0+(vax*B1)
+
+##1
+mdo1<-lm(vay~vax)
+summary(mdo1)
+
+#2
+estimapuntual<-B0+B1*182
+estimapuntual
+
+#3
+valor1<-.90-estimapuntual
+valor2<-1.82-estimapuntual
+valor3<-1.92-estimapuntual
+valor4<-2.68-estimapuntual
+
+datos<-data.frame(vax,vay)
+plot(vay~vax, main="Diagrama de Dispersión",xlab = "Estatura", ylab = "Longitud del salto", xlin=c(160,190),ylin=c(.80,3.2))
+abline(mdo1, col="green")
+
+
+_##?
+names(mdo1)
+mdo1$coefficients
+mdo1$residuals

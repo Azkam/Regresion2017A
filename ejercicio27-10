@@ -1,0 +1,44 @@
+operacion <- c(3.7,3.4,2.5,4.8,4,3,2.7,1.7,2.2,1.4)
+uso <- c(4.5,3,4,3.7,3.5,3,2.5,3.5,2.7,3.6) 
+gama <- c(4.8,4.2,4,3.4,3.2,4.6,3.3,3.1,3,2.5)
+ateclien <- c(4.4,4.2,4.7,2.1,1.4,1.6,1.6,5,2.8,2.8)
+califtotal <- c(4,3.5,3.5,3.5,3.5,3.5,3,3,2.5,2)
+
+calif<-data.frame(operacion,uso,gama,ateclien,califtotal)
+mode <- lm(califtotal ~ operacion + uso + gama + ateclien)
+anova(mode)
+
+#2)
+coefficients(mode)
+
+#3)
+summary(mode)
+#la vari
+
+#4)
+calif <- calif[,-2]
+calif <- calif[,-3]
+modej2 <- lm(califtotal ~ operacion + gama)
+summary(modej2)
+
+
+names(modej2)
+calif$fitted.modej2 <- fitted(modej2)
+calif$residuals.modej2 <- residuals(modej2)
+calif$rstudent.modej2 <- rstudent(modej2)
+
+shapiro.test(calif$rstudent.modej2)
+qqnorm(calif$rstudent.modej2)
+qqline(calif$rstudent.modej2)
+#Con un p value = 0.6121 se acepta el supuesto de normalidad
+
+install.packages("lmtest")
+require(lmtest)
+bptest(modej2)
+#el p-valuees de 0.1104 que es mayor a .05 por lo tanto se cumple el supuesto de
+#homocedasticidad , independencia o autocorrelacion 
+
+dwtest(modej2,alternative = "two.sided")
+# el valor Dw se encuentra entre 1.5 y 2.5 con un DW=2.4889, ademas el p-value que tiene
+#es mayor a .05 con p-value=0.6228 con lo cual se cumple con el supuesto de 
+#independencia de los residuos 

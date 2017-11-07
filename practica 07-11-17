@@ -1,0 +1,17 @@
+ls(swiss)
+mod<-lm(Fertility~Education+Examination+Agriculture,data=swiss)
+summary(mod)
+#en los coeficientes observamos el estadistico T que tenemos todas las variables son 
+#significativas
+#Tenemos un error standar residual de 8.601 que es un error bajo tambien observamos la 
+#r ajustada (por MRM)que tenemos una r ajustada de 0.5259, lo que explica 52.59% de la variabilidad
+#del modelo observamos que tenemos un estadistico F como un buen valor y p value menor a .05
+#que implica que este modelo es mejor que el modelo basico
+
+step(mod,direction="backward")
+step(mod,direction="both")
+step(mod,direction = "forward")
+
+
+#al aplicAR EL aic POR LOS TRES METODOS STEP DA EL MISMO RESULTADO(AIC=206.09) PARA EL
+#MODELO Fertility ~ Education + Examination + Agriculture 

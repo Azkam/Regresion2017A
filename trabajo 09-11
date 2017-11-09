@@ -1,0 +1,39 @@
+#swiss
+#Medicion estandarizada de la fecundidad e indicadores socioeconomicos para cada una de la 47 provincias
+#francesas hablantes de Suiza alrededor de 1888
+require(stats)
+base<-data.frame(swiss)
+#analisis exploratorio
+names(base)
+pairs(base) # hacer graficas por pares para ver correlación
+cor(base)
+###propuesta modelo de regresion simple con base en el analisis exploratorio
+regresion1<-lm(Infant.Mortality~Fertility,data=base)
+###modelo propuesto anteriormente
+nulo<-lm(Fertility~1,data=base) #variable dependiente con una constante (la que sea) para comparar
+#si el nulo es el mejor modelo no tiene caso hacer otro modelo
+summary(nulo)
+completo<-lm(Fertility~.,data=base) # el punto es como si pusieramos todas las variables independientes
+summary(completo)
+step(nulo,scope=list(lower=nulo,upper=completo),direction = "forward")# scope dice que evalua todas las 
+#combinaciones desde nulo hasta completo
+summary(completo)
+help(step)
+
+help("datasets")
+library(help = "datasets")
+
+base2<-data.frame(quakes)
+names(base2)
+pairs(base2)
+cor(base2)
+propuesta<-lm(mag~stations,data=base2)
+nulo<-lm(mag~1,data=base2)
+completo<-lm(mag~.,data=base2)
+step(nulo,scope=list(lower=nulo,upper=completo),direction = "forward")
+#En la base de datos quakes, al hacer un análisis gráfico previo, se observa una relación mayor entre 
+#las variables mag y station, al proponer la variable mag como variable dependiente y realizar el step 
+#desde el modelo nulo hasta el completo, el primer paso arroja que la mejor relación entre mag 
+#y una sola variable se da con mag~stations, tal como se observa gráficamente, el step continua hasta 
+#concluir que el mejor modelo es mag ~ stations + depth + long + lat, es decir, que incluye todas las
+#variables independientes con un AIC=-3287.54

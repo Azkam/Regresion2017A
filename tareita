@@ -1,0 +1,28 @@
+require (stats)
+base<- data.frame(volcano)
+
+#analisis exploratorio
+names(base)
+pairs(base)
+cor(base)
+
+#propuesta modelo de regresion multiple con base en el analisis exploratorio
+regresion1 <- lm(cov.Addition~cov.Code,data = base)
+#modelo propuesto anteriormente  
+nulo <- lm(cov.Code~1,data=base)
+completo <- lm(cov.Code~.,data=base)
+step(nulo,scope=list(lower=nulo,upper=completo),direction="forward")
+summary(completo)
+help(step)
+mod1<-lm(formula = X1 ~ X6 + X35 + X45 + X47, data = base)
+summary(mod1)
+
+shapiro.test(rstudent(mod1)) 
+
+install.packages("lmtest")
+require(lmtest)
+bptest(mod1)
+
+dwtest(mod1,alternative = "two.sided")
+
+
